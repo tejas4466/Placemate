@@ -1,17 +1,22 @@
-// server.ts
 import express, { Request, Response } from 'express';
 import db from './config/drizzle';
 import dotenv from 'dotenv';
 import { applicants } from './models/schema';
+import cors from "cors";
+import routes from './routes/route'
 
 // Load environment variables
 dotenv.config();
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware to parse JSON requests
 app.use(express.json());
+
+//cors
+app.use(cors());
 
 // Test route to check if the server is running
 app.get('/', (req: Request, res: Response) => {
@@ -29,6 +34,8 @@ app.get('/users', async (req: Request, res: Response) => {
         res.status(500).json({ error: 'Error fetching data' });
     }
 });
+
+app.use('/api',routes);
 
 // Start the server
 app.listen(PORT, () => {

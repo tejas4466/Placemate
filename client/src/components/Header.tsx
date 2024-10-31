@@ -11,8 +11,8 @@ const Header: React.FC = () => {
   const navLinks = [
     { path: '/', label: 'Home' },
     { path: '/about', label: 'About' },
-    { path: '/all-company', label: 'Companies' },
-    { path: '/all-jobs', label: 'Jobs' },
+    { path: '/companies', label: 'Companies' },
+    { path: '/jobs', label: 'Jobs' },
     { path: '/feedback', label: 'Feedback' },
   ];
 
@@ -72,12 +72,12 @@ const Header: React.FC = () => {
             {/* <DropdownMenuLabel className="text-gray-400">Register As</DropdownMenuLabel> */}
             {/* <DropdownMenuSeparator /> */}
             <DropdownMenuItem asChild>
-              <Link to="/registration/applicant" className="text-gray-400 hover:text-white">
+              <Link to="/register/applicant" className="text-gray-400 hover:text-white">
                 Applicant
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link to="/registration/company" className="text-gray-400 hover:text-white">
+              <Link to="/register/company" className="text-gray-400 hover:text-white">
                 Company
               </Link>
             </DropdownMenuItem>
