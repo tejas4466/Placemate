@@ -10,7 +10,7 @@ import {
 const Header: React.FC = () => {
   const navLinks = [
     { path: '/', label: 'Home' },
-    { path: '/about-us', label: 'About' },
+    { path: '/about', label: 'About' },
     { path: '/all-company', label: 'Companies' },
     { path: '/all-jobs', label: 'Jobs' },
     { path: '/feedback', label: 'Feedback' },
