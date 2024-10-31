@@ -10,8 +10,8 @@ export const applicants = mysqlTable('applicants', {
   dob: date('dob').notNull(),
   college_nm: varchar('college_nm', { length: 255 }),
   qualification: varchar('qualification', { length: 255 }),
-  // image: varchar('image', { length: 255 }),
-  // resume: varchar('resume', { length: 255 }),
+  image: varchar('image', { length: 255 }),
+  resume: varchar('resume', { length: 255 }),
   createdAt: timestamp('created_at').defaultNow(),
   updatedAt: timestamp('updated_at').defaultNow().onUpdateNow(),
 });
