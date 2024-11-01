@@ -1,6 +1,8 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useState } from 'react';
+import { useForm} from 'react-hook-form';
 import axiosInstance from '../utils/axios';
+import { Loader } from 'lucide-react';
+import { Toaster, toast } from 'sonner';
 
 interface ApplicantFormInputs {
   name: string;
@@ -16,11 +18,12 @@ interface ApplicantFormInputs {
 }
 
 const ApplicantRegistration: React.FC = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<ApplicantFormInputs>();
+  const { register, handleSubmit, reset } = useForm<ApplicantFormInputs>();
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data: ApplicantFormInputs) => {
+    setLoading(true);
     try {
-      // Create FormData for image and resume upload
       const formData = new FormData();
       formData.append('name', data.name);
       formData.append('email', data.email);
@@ -31,143 +34,94 @@ const ApplicantRegistration: React.FC = () => {
       formData.append('college_nm', data.college_nm);
       formData.append('qualification', data.qualification);
 
-      // Append image if provided
       if (data.image && data.image[0]) {
         formData.append('image', data.image[0]);
       }
 
-      // Append resume if provided
       if (data.resume && data.resume[0]) {
         formData.append('resume', data.resume[0]);
       }
 
-      // Submit the FormData with headers
-      const response = await axiosInstance.post(
-        '/api/register/applicant',
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+      const response = await axiosInstance.post('/api/register/applicant', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
         }
-      );
+      });
 
       if (response) {
-        alert("Registered successfully!");
+        toast.success("You have successfully registered!");
+        reset();
       }
-
     } catch (error) {
       console.error('Registration error:', error);
-      alert('An error occurred while registering the applicant.');
+      toast.error("An error occurred while registering the applicant.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-5 bg-gray-900">
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md p-8 bg-gray-800 rounded-lg shadow-md">
-        <h2 className="mb-6 text-2xl text-center text-white">Applicant Registration</h2>
+    <div className="flex items-center justify-center p-6 bg-black min-h-screen">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-xl bg-black border border-gray-600 rounded-sm p-8">
+        <h2 className="mb-8 text-2xl text-center text-white font-bold">Applicant Registration</h2>
 
-        <div>
-          <input
-            type="text"
-            placeholder="Name"
-            className="block w-full p-2 mb-4 text-gray-900 border rounded"
-            {...register('name', { required: 'Name is required' })}
-          />
-          {errors.name && <span className="text-red-500">{errors.name.message}</span>}
-        </div>
+        {[ // Array of input configurations
+          { label: 'Name', type: 'text', placeholder: 'Name', name: 'name' },
+          { label: 'Email', type: 'email', placeholder: 'Email', name: 'email' },
+          { label: 'Password', type: 'password', placeholder: 'Password', name: 'password' },
+          { label: 'Contact No', type: 'text', placeholder: 'Contact No', name: 'contact_no' },
+          { label: 'Address', type: 'text', placeholder: 'Address', name: 'address' },
+          { label: 'Date of Birth', type: 'date', name: 'dob' },
+          { label: 'College Name', type: 'text', placeholder: 'College Name', name: 'college_nm' },
+          { label: 'Qualification', type: 'text', placeholder: 'Qualification', name: 'qualification' },
+        ].map((input, index) => (
+          <div key={index} className="flex items-center mb-4">
+            <label htmlFor={input.name} className="mr-4 text-white w-4/12 font-medium text-md">{input.label}</label>
+            <input
+              id={input.name}
+              type={input.type}
+              placeholder={input.placeholder}
+              className={`block w-full p-2 text-white bg-black border rounded border-gray-600`}
+              {...register(input.name as any, { required: `${input.label} is required` })}
+            />
+            {/* Error Message
+            {errors[input.name as keyof FieldErrors<ApplicantFormInputs>] && (
+              <span className="text-red-500 text-sm ml-2">{errors[input.name as keyof FieldErrors<ApplicantFormInputs>]?.message}</span>
+            )} */}
+          </div>
+        ))}
 
-        <div>
+        {/* Image Input */}
+        <div className="flex items-center mb-4">
+          <label htmlFor="image" className="mr-4 text-white w-32 font-semibold">Profile Picture</label>
           <input
-            type="email"
-            placeholder="Email"
-            className="block w-full p-2 mb-4 text-gray-900 border rounded"
-            {...register('email', { required: 'Email is required' })}
-          />
-          {errors.email && <span className="text-red-500">{errors.email.message}</span>}
-        </div>
-
-        <div>
-          <input
-            type="password"
-            placeholder="Password"
-            className="block w-full p-2 mb-4 text-gray-900 border rounded"
-            {...register('password', { required: 'Password is required' })}
-          />
-          {errors.password && <span className="text-red-500">{errors.password.message}</span>}
-        </div>
-
-        <div>
-          <input
-            type="text"
-            placeholder="Contact No"
-            className="block w-full p-2 mb-4 text-gray-900 border rounded"
-            {...register('contact_no', { required: 'Contact No is required' })}
-          />
-          {errors.contact_no && <span className="text-red-500">{errors.contact_no.message}</span>}
-        </div>
-
-        <div>
-          <input
-            type="text"
-            placeholder="Address"
-            className="block w-full p-2 mb-4 text-gray-900 border rounded"
-            {...register('address', { required: 'Address is required' })}
-          />
-          {errors.address && <span className="text-red-500">{errors.address.message}</span>}
-        </div>
-
-        <div>
-          <input
-            type="date"
-            className="block w-full p-2 mb-4 text-gray-900 border rounded"
-            {...register('dob', { required: 'Date of Birth is required' })}
-          />
-          {errors.dob && <span className="text-red-500">{errors.dob.message}</span>}
-        </div>
-
-        <div>
-          <input
-            type="text"
-            placeholder="College Name"
-            className="block w-full p-2 mb-4 text-gray-900 border rounded"
-            {...register('college_nm', { required: 'College Name is required' })}
-          />
-          {errors.college_nm && <span className="text-red-500">{errors.college_nm.message}</span>}
-        </div>
-
-        <div>
-          <input
+            id="image"
             type="file"
             accept="image/*"
-            className="block w-full p-2 mb-4 text-gray-900 border rounded"
+            className="block w-full p-2 text-white bg-black border border-gray-600 rounded"
             {...register('image')}
           />
-          {errors.image && <span className="text-red-500">{errors.image.message}</span>}
         </div>
 
-        <div>
+        {/* Resume Input */}
+        <div className="flex items-center mb-4">
+          <label htmlFor="resume" className="mr-4 text-white w-32 font-semibold">Upload Resume</label>
           <input
+            id="resume"
             type="file"
             accept="application/pdf, .doc, .docx"
-            className="block w-full p-2 mb-4 text-gray-900 border rounded"
+            className="block w-full p-2 text-white bg-black border border-gray-600 rounded"
             {...register('resume')}
           />
-          {errors.resume && <span className="text-red-500">{errors.resume.message}</span>}
         </div>
 
-        <div>
-          <input
-            type="text"
-            placeholder="Qualification"
-            className="block w-full p-2 mb-4 text-gray-900 border rounded"
-            {...register('qualification', { required: 'Qualification is required' })}
-          />
-          {errors.qualification && <span className="text-red-500">{errors.qualification.message}</span>}
-        </div>
-
-        <button type="submit" className="w-full p-2 text-white bg-blue-600 rounded hover:bg-blue-700">Register</button>
+        {/* Submit Button with Loader */}
+        <button type="submit" className="w-full p-2 text-white bg-purple-800 rounded hover:bg-purple-700 flex justify-center items-center">
+          {loading ? <Loader className='animate-spin mr-2 text-white' /> : "Register"}
+        </button>
       </form>
+      {/* Toaster for Notifications */}
+      <Toaster position="bottom-right" />
     </div>
   );
 };

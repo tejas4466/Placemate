@@ -27,12 +27,12 @@ const Feedback: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center min-h-screen pt-16 bg-black">
-      <div className="w-full max-w-md p-6 bg-gray-800 rounded-lg shadow-lg">
+      <div className="w-full max-w-md p-6 bg-black border border-gray-600 rounded-lg shadow-lg">
         <h2 className="mb-6 text-2xl font-semibold text-center text-white">We Value Your Feedback</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-300">
-              Full Name
+          <div className="flex items-center">
+            <label htmlFor="name" className="block text-md font-medium text-white w-1/3">
+              Full Name 
             </label>
             <input
               type="text"
@@ -41,14 +41,14 @@ const Feedback: React.FC = () => {
               value={formData.name}
               onChange={handleChange}
               required
-              className="block w-full px-4 py-2 mt-1 text-gray-200 bg-gray-900 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="block w-2/3 px-4 py-2 mt-1 text-white bg-black border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
               placeholder="John Doe"
             />
           </div>
 
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-300">
-              Email Address
+          <div className="flex items-center">
+            <label htmlFor="email" className="block text-sm font-medium text-white w-1/3">
+              Email Address 
             </label>
             <input
               type="email"
@@ -57,14 +57,14 @@ const Feedback: React.FC = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="block w-full px-4 py-2 mt-1 text-gray-200 bg-gray-900 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="block w-2/3 px-4 py-2 mt-1 text-white bg-black border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
               placeholder="example@example.com"
             />
           </div>
 
-          <div>
-            <label htmlFor="feedbackType" className="block text-sm font-medium text-gray-300">
-              Feedback Type
+          <div className="flex items-center">
+            <label htmlFor="feedbackType" className="block text-sm font-medium text-white w-1/3">
+              Feedback Type 
             </label>
             <select
               id="feedbackType"
@@ -72,7 +72,7 @@ const Feedback: React.FC = () => {
               value={formData.feedbackType}
               onChange={handleChange}
               required
-              className="block w-full px-4 py-2 mt-1 text-gray-200 bg-gray-900 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="block w-2/3 px-4 py-2 mt-1 text-white bg-black border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               <option value="" disabled>
                 Select Feedback Type
@@ -83,9 +83,9 @@ const Feedback: React.FC = () => {
             </select>
           </div>
 
-          <div>
-            <label htmlFor="message" className="block text-sm font-medium text-gray-300">
-              Message
+          <div className="flex items-center">
+            <label htmlFor="message" className="block text-sm font-medium text-white w-1/3">
+              Message 
             </label>
             <textarea
               id="message"
@@ -93,7 +93,7 @@ const Feedback: React.FC = () => {
               value={formData.message}
               onChange={handleChange}
               required
-              className="block w-full px-4 py-2 mt-1 text-gray-200 bg-gray-900 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="block w-2/3 px-4 py-2 mt-1 text-white bg-black border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
               rows={4}
               placeholder="Enter your message here..."
             />
