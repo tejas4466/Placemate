@@ -1,0 +1,23 @@
+export const navLinks={
+    admin:[
+        {path:'/',label:'Home'},
+        {path:'/about',label:'About'},
+        {path:'/companies',label:'Companies'},
+        {path:'/jobs',label:'Jobs'},
+        {path:'/account',label:'Account'}
+    ],
+    company:[
+        {path:'/',label:'Home'},
+        {path:'/about',label:'About'},
+        {path:'/companies',label:'Companies'},
+        {path:'/jobs',label:'Jobs'},
+        {path:'/account',label:'Account'}
+    ],
+    applicant:[
+        {path:'/',label:'Home'},
+        {path:'/about',label:'About'},
+        {path:'/companies',label:'Companies'},
+        {path:'/jobs',label:'Jobs'},
+        {path:'/account',label:'Account'}
+    ]
+}

@@ -61,9 +61,9 @@ const ApplicantRegistration: React.FC = () => {
   };
 
   return (
-    <div className="flex items-center justify-center p-6 bg-black min-h-screen">
-      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-xl bg-black border border-gray-600 rounded-sm p-8">
-        <h2 className="mb-8 text-2xl text-center text-white font-bold">Applicant Registration</h2>
+    <div className="flex items-center justify-center min-h-screen p-6 bg-black">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-xl p-8 bg-black border border-gray-600 rounded-sm">
+        <h2 className="mb-8 text-2xl font-bold text-center text-white">Applicant Registration</h2>
 
         {[ // Array of input configurations
           { label: 'Name', type: 'text', placeholder: 'Name', name: 'name' },
@@ -76,7 +76,7 @@ const ApplicantRegistration: React.FC = () => {
           { label: 'Qualification', type: 'text', placeholder: 'Qualification', name: 'qualification' },
         ].map((input, index) => (
           <div key={index} className="flex items-center mb-4">
-            <label htmlFor={input.name} className="mr-4 text-white w-4/12 font-medium text-md">{input.label}</label>
+            <label htmlFor={input.name} className="w-4/12 mr-4 font-medium text-white text-md">{input.label}</label>
             <input
               id={input.name}
               type={input.type}
@@ -86,14 +86,14 @@ const ApplicantRegistration: React.FC = () => {
             />
             {/* Error Message
             {errors[input.name as keyof FieldErrors<ApplicantFormInputs>] && (
-              <span className="text-red-500 text-sm ml-2">{errors[input.name as keyof FieldErrors<ApplicantFormInputs>]?.message}</span>
+              <span className="ml-2 text-sm text-red-500">{errors[input.name as keyof FieldErrors<ApplicantFormInputs>]?.message}</span>
             )} */}
           </div>
         ))}
 
         {/* Image Input */}
         <div className="flex items-center mb-4">
-          <label htmlFor="image" className="mr-4 text-white w-32 font-semibold">Profile Picture</label>
+          <label htmlFor="image" className="w-32 mr-4 font-semibold text-white">Profile Picture</label>
           <input
             id="image"
             type="file"
@@ -105,7 +105,7 @@ const ApplicantRegistration: React.FC = () => {
 
         {/* Resume Input */}
         <div className="flex items-center mb-4">
-          <label htmlFor="resume" className="mr-4 text-white w-32 font-semibold">Upload Resume</label>
+          <label htmlFor="resume" className="w-32 mr-4 font-semibold text-white">Upload Resume</label>
           <input
             id="resume"
             type="file"
@@ -116,8 +116,8 @@ const ApplicantRegistration: React.FC = () => {
         </div>
 
         {/* Submit Button with Loader */}
-        <button type="submit" className="w-full p-2 text-white bg-purple-800 rounded hover:bg-purple-700 flex justify-center items-center">
-          {loading ? <Loader className='animate-spin mr-2 text-white' /> : "Register"}
+        <button type="submit" className="flex items-center justify-center w-full p-2 text-white bg-purple-800 rounded hover:bg-purple-700">
+          {loading ? <Loader className='mr-2 text-white animate-spin' /> : "Register"}
         </button>
       </form>
       {/* Toaster for Notifications */}
