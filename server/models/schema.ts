@@ -54,3 +54,15 @@ export const users = mysqlTable("users", {
   password: varchar("password",{length:255}).notNull(),
   role: mysqlEnum("role", ["applicant","company","admin"]).notNull(), 
 });
+
+//Job Applications of applicants
+export const jobapplications = mysqlTable('jobapplications', {
+  id: int('id').primaryKey().autoincrement(), 
+  image: varchar('image', { length: 255 }).notNull(), 
+  name: varchar('name', { length: 100 }).notNull(),
+  contact_no: varchar('contact_no', { length: 15 }).notNull(), 
+  location: varchar('location', { length: 50 }).notNull(),
+  company: varchar('company', { length: 100 }).notNull(), 
+  job_applied_for: varchar('job_applied_for', { length: 100 }).notNull(),
+  email: varchar('email', { length: 100 }).notNull(), 
+});

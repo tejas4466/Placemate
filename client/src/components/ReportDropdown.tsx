@@ -25,7 +25,7 @@ function ReportDropdown() {
     ],
     company: [
       { label: 'Job Report', path: '/job-report' },
-      { label: 'Job Application Report', path: '/job-application-report' },
+      { label: 'Job Application Report', path: '/job-applicationa-report' },
     ],
     applicant: [
       { label: 'Applied Jobs', path: '/applied-jobs' },

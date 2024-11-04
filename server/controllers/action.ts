@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from 'bcryptjs';
 import db from '../config/drizzle';
 import { uploadOnCloudinary } from '../utils/cloudinary';
-import { applicants, companies,users,jobs} from '../models/schema';
+import { applicants, companies,users,jobs,jobapplications} from '../models/schema';
 import {eq} from 'drizzle-orm';
 
 const saltRounds = 10;
@@ -167,7 +167,7 @@ export const loginApplicant = async (req: Request, res: Response)=> {
             .select()
             .from(users)
             .where(eq(users.email, email))
-            .limit(1);
+            .limit(1); 
   
       // If user is not found, return error
       if (!user || user.length === 0) {
@@ -192,13 +192,19 @@ export const loginApplicant = async (req: Request, res: Response)=> {
         JWT_SECRET,
         { expiresIn: "1h" } // Token expiration time
       );
+      const userDetails={
+        id:user[0].id,
+        name:user[0].name,
+        email:user[0].email,
+        role:user[0].role
+      }
   
       // Respond with the token and role
         res.status(200).json({
         message: "Login successful!",
         AuthToken:token,
         role: userRole,
-
+        userData:userDetails,
       });
     } catch (error) {
       console.error("Error logging in:", error);
@@ -261,6 +267,7 @@ export const loginCompany = async (req: Request, res: Response)=> {
       return; 
     }
   };
+
 export const loginAdmin = async (req: Request, res: Response)=> {
     try {
       const { email, password } = req.body;
@@ -283,7 +290,7 @@ export const loginAdmin = async (req: Request, res: Response)=> {
        res.status(401).json({ message: "Invalid email or password" });
        return;
       }
-      if(user[0].role !== 'admin')return ;
+      if(user[0].role !== 'admin')return;
   
     //   Check the password with bcrypt
       const passwordMatch = await bcrypt.compare(password, user[0].password);
@@ -343,3 +350,70 @@ export const registerJob = async (req: Request, res: Response) => {
   }
 };
 
+//change password
+export const changePassword = async (req: Request, res: Response) => {
+  try {
+    const { email, confirmPassword } = req.body;
+    // Hash the new password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(confirmPassword, saltRounds);
+
+    // Update the password using Drizzle ORM
+    const result = await db.update(users).set({ password: hashedPassword }).where(eq(users.email, email)).execute();
+
+    // // Check if any rows were affected (to ensure the email exists)
+    if (!result) {
+       res.status(404).json({ message: 'User not found' });
+    }
+
+    // Send success response
+    res.status(200).json({ message: 'Password updated successfully' });
+  } catch (error) {
+    console.error('Error updating password:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+// Apply Job
+export const jobApply = async (req: Request, res: Response) => {
+  try {
+    // Extract required fields from the request body
+    const { email, company_name, job_title, location } = req.body;
+
+    // Find the applicant in the 'applicants' table using the email
+    const applicant = await db
+      .select({
+        name: applicants.name,
+        contact_no: applicants.contact_no,
+        image: applicants.image,
+      })
+      .from(applicants)
+      .where(eq(applicants.email,email));
+      console.log(applicant);
+
+    // Check if the applicant was found
+    if (applicant.length === 0) {
+      res.status(404).json({ message: 'Applicant not found' });
+    }
+
+    // Create the job application object
+    const jobApplication = {
+      image: applicant[0].image ?? '',
+      name: applicant[0].name,
+      contact_no: applicant[0].contact_no,
+      location,
+      company: company_name,
+      job_applied_for: job_title,
+      email,
+    };
+    // Insert the job application into the 'jobapplications' table
+    await db.insert(jobapplications).values(jobApplication);
+
+    // Send a success response
+    res.status(201).json({ message: 'Job application submitted successfully' });
+  } catch (error) {
+    // Handle any errors
+    console.error('Error applying for job:', error);
+    res.status(500).json({ message: 'An error occurred while applying for the job' });
+  }
+};

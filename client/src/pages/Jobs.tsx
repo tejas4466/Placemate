@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/axios';
+import { Link } from 'react-router-dom';
 
 // Define a TypeScript type for the job data according to the new schema
 type Job = {
@@ -62,9 +63,12 @@ const Jobs: React.FC = () => {
               </table> 
             </div>
             <div className="mt-4 text-center">
-              <button className="px-4 py-2 text-sm text-white bg-purple-700 rounded-md hover:bg-purple-600">
-                View Details
-              </button>
+            <Link
+        to={`/jobDetails/${job.id}`} // Set the URL for the job details page
+        className="px-4 py-2 text-sm text-white bg-purple-700 rounded-md hover:bg-purple-600"
+      >
+        View Details
+      </Link>
             </div>
           </div>
         ))}

@@ -1,4 +1,3 @@
-// route.ts
 import express from 'express';
 import {
    registerApplicant,
@@ -9,6 +8,8 @@ import {
     loginAdmin,
     registerJob,
     listJobs,
+    changePassword,
+    jobApply,
   } from '../controllers/action';
 import { upload } from '../middlewares/multer';
 
@@ -27,6 +28,7 @@ router.post('/login/company',loginCompany);
 router.post('/login/admin',loginAdmin); 
 router.post('/register/job',registerJob); 
 router.get('/jobs',listJobs);
-
+router.post('/changepassword',changePassword);
+router.post('/applyjob',jobApply);
 
 export default router;
