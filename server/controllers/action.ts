@@ -253,13 +253,19 @@ export const loginCompany = async (req: Request, res: Response)=> {
         JWT_SECRET,
         { expiresIn: "1h" } // Token expiration time
       );
+      const userDetails={
+        id:user[0].id,
+        name:user[0].name,
+        email:user[0].email,
+        role:user[0].role
+      }
   
       // Respond with the token and role
         res.status(200).json({
         message: "Login successful!",
         AuthToken:token,
         role: userRole,
-
+        userData:userDetails,
       });
     } catch (error) {
       console.error("Error logging in:", error);
@@ -386,6 +392,7 @@ export const jobApply = async (req: Request, res: Response) => {
         name: applicants.name,
         contact_no: applicants.contact_no,
         image: applicants.image,
+        resume:applicants.resume,
       })
       .from(applicants)
       .where(eq(applicants.email,email));
@@ -399,6 +406,7 @@ export const jobApply = async (req: Request, res: Response) => {
     // Create the job application object
     const jobApplication = {
       image: applicant[0].image ?? '',
+      resume: applicant[0].resume ?? '',
       name: applicant[0].name,
       contact_no: applicant[0].contact_no,
       location,
@@ -415,5 +423,19 @@ export const jobApply = async (req: Request, res: Response) => {
     // Handle any errors
     console.error('Error applying for job:', error);
     res.status(500).json({ message: 'An error occurred while applying for the job' });
+  }
+};
+
+//List Job Applications
+export const listJobApplications = async (req: Request, res: Response) => {
+  try {
+      // Fetch all jobs from the 'jobs' table
+      const allJobsApplications = await db.select().from(jobapplications).execute();
+
+      // Send the list of jobs as a JSON response
+      res.status(200).json(allJobsApplications);
+  } catch (error) {
+      console.error('Error fetching jobs:', error);
+      res.status(500).json({ message: 'Error fetching jobs', error: error instanceof Error ? error.message : error });
   }
 };

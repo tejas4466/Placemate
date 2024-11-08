@@ -33,7 +33,8 @@ const JobDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [companies, setCompanies] = useState<Company[]>([]);
-  const user=localStorage.getItem('userData');
+  const userData = localStorage.getItem('userData');
+  const user = userData ? JSON.parse(userData) : { email: '', role: '' };
 
   useEffect(() => {
     axiosInstance
@@ -62,7 +63,7 @@ const JobDetails: React.FC = () => {
 
     const handleJobApply = async()=>{
       try {
-        const userData = JSON.parse(user || '{}');
+        const userData = user;
         const data = {
           email: userData.email,
           company_name:job?.company_name,
@@ -136,12 +137,14 @@ const JobDetails: React.FC = () => {
               )}
               <h1 className="mb-4 text-4xl font-semibold">{company.company_name}</h1>
               <div className="p-4 text-center text-red-500">
-              <button 
-              className='p-2 font-normal text-white bg-purple-700 border border-gray-600 rounded-md hover:bg-purple-800'
-              onClick={handleJobApply}
-              >
-              Apply for this Job
-              </button>
+              {user && user.role==='applicant' &&
+              (<button 
+                className='p-2 font-normal text-white bg-purple-700 border border-gray-600 rounded-md hover:bg-purple-800'
+                onClick={handleJobApply}
+                >
+                Apply for this Job
+                </button>)
+              }
             </div>
             </>
           )}

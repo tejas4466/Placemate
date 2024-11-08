@@ -10,6 +10,7 @@ import {
     listJobs,
     changePassword,
     jobApply,
+    listJobApplications,
   } from '../controllers/action';
 import { upload } from '../middlewares/multer';
 
@@ -30,5 +31,6 @@ router.post('/register/job',registerJob);
 router.get('/jobs',listJobs);
 router.post('/changepassword',changePassword);
 router.post('/applyjob',jobApply);
+router.get('/applications',listJobApplications);
 
 export default router;

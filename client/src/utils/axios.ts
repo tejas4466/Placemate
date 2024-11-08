@@ -5,7 +5,7 @@ import { BASE_URL } from './constants';
 // Create an Axios instance
 const axiosInstance: AxiosInstance = axios.create({
     baseURL: BASE_URL, // Change to your backend API base URL
-    timeout: 10000, // Request timeout in milliseconds
+    timeout: 60000, // Request timeout in milliseconds
     headers: {
         'Content-Type': 'application/json',
         // Add any other headers you need

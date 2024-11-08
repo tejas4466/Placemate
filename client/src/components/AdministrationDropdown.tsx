@@ -13,7 +13,7 @@ function AdministrationDropdown() {
       { label: 'Add Job', path: '/register/job' },
     ],
     company: [
-      { label: 'Add Job', path: '/add-job' },
+      { label: 'Add Job', path: '/register/job' },
     ],
   };
 

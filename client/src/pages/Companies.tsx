@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/axios';
+import { useNavigate } from 'react-router-dom';
 
 // Define a TypeScript type for the company data
 type Company = {
@@ -16,6 +17,7 @@ type Company = {
 
 const Companies: React.FC = () => {
   const [companies, setCompanies] = useState<Company[]>([]);
+  const navigate=useNavigate();
 
   useEffect(() => {
     // Fetch the list of companies from the API
@@ -54,7 +56,9 @@ const Companies: React.FC = () => {
                 <button className="px-2 py-2 text-sm text-white bg-purple-700 rounded-md hover:bg-purple-600">
                   View Details
                 </button>
-                <button className="px-4 py-2 text-sm text-white bg-purple-700 rounded-md hover:bg-purple-600">
+                <button className="px-4 py-2 text-sm text-white bg-purple-700 rounded-md hover:bg-purple-600"
+                onClick={()=>navigate('/jobs')}
+                >
                   View Jobs
                 </button>
               </div>

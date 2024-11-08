@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/axios';
-import {Trash2} from 'lucide-react';
-import {SquarePen} from 'lucide-react';
+import { Trash2, SquarePen } from 'lucide-react';
 
 // Define a TypeScript type for the job data according to the schema
 type Job = {
-  id: number;
+  id: number; 
   job_title: string;
   company_name: string;
   job_type: string;
@@ -14,7 +13,10 @@ type Job = {
 };
 
 const JobReport: React.FC = () => {
+  const userData = localStorage.getItem('userData');
+  const user = userData ? JSON.parse(userData) : {};
   const [jobs, setJobs] = useState<Job[]>([]);
+  const companyJob = jobs.filter((job) => job.company_name === user.name);
 
   useEffect(() => {
     // Fetch the list of jobs from the API
@@ -46,60 +48,103 @@ const JobReport: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen px-10 py-6 text-white bg-black">
-      <h1 className="mb-6 text-3xl font-bold text-center">Job Report</h1>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-black border border-gray-600">
-          <thead>
-            <tr>
-              <th className="px-4 py-2 border border-gray-600">ID</th>
-              <th className="px-4 py-2 border border-gray-600">Job Title</th>
-              <th className="px-4 py-2 border border-gray-600">Company</th>
-              <th className="px-4 py-2 border border-gray-600">Job Type</th>
-              <th className="px-4 py-2 border border-gray-600">Job Post Date</th>
-              <th className="px-4 py-2 border border-gray-600">Location</th>
-              <th className="px-4 py-2 border border-gray-600">Action</th>
-            </tr>
-          </thead>
-          <tbody className='text-center text-md'>
-            {jobs.length > 0 ? (
-              jobs.map((job, index) => (
-                <tr key={job.id}>
+    <>
+      {user.role!=='company' ? (
+        <div className="min-h-screen px-10 py-6 text-white bg-black">
+          <h1 className="mb-6 text-3xl font-bold text-center">Job Report</h1>
+          <div className="overflow-x-auto">
+            <table className="min-w-full bg-black border border-gray-600">
+              <thead>
+                <tr>
+                  <th className="px-4 py-2 border border-gray-600">ID</th>
+                  <th className="px-4 py-2 border border-gray-600">Job Title</th>
+                  <th className="px-4 py-2 border border-gray-600">Company</th>
+                  <th className="px-4 py-2 border border-gray-600">Job Type</th>
+                  <th className="px-4 py-2 border border-gray-600">Job Post Date</th>
+                  <th className="px-4 py-2 border border-gray-600">Location</th>
+                  <th className="px-4 py-2 border border-gray-600">Action</th>
+                </tr>
+              </thead>
+              <tbody className="text-center text-md">
+                {jobs.map((job, index) => (
+                  <tr key={job.id}>
+                    <td className="px-4 py-2 border border-gray-600">{index + 1}</td>
+                    <td className="px-4 py-2 border border-gray-600">{job.job_title}</td>
+                    <td className="px-4 py-2 border border-gray-600">{job.company_name}</td>
+                    <td className="px-4 py-2 border border-gray-600">{job.job_type}</td>
+                    <td className="px-4 py-2 border border-gray-600">
+                      {new Date(job.job_post_date).toLocaleDateString()}
+                    </td>
+                    <td className="px-4 py-2 border border-gray-600">{job.location}</td>
+                    <td className="px-4 py-2 border border-gray-600">
+                      <button
+                        onClick={() => handleEdit(job.id)}
+                        className="mr-4 text-purple-600 hover:scale-110"
+                      >
+                        <SquarePen />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(job.id)}
+                        className="text-red-500 hover:text-red-400"
+                      >
+                        <Trash2 />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ) : (
+        <div className="min-h-screen px-10 py-6 text-white bg-black">
+        <h1 className="mb-6 text-3xl font-bold text-center">Job Report</h1>
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-black border border-gray-600">
+            <thead>
+              <tr>
+                <th className="px-4 py-2 border border-gray-600">ID</th>
+                <th className="px-4 py-2 border border-gray-600">Job Title</th>
+                <th className="px-4 py-2 border border-gray-600">Company</th>
+                <th className="px-4 py-2 border border-gray-600">Job Type</th>
+                <th className="px-4 py-2 border border-gray-600">Job Post Date</th>
+                <th className="px-4 py-2 border border-gray-600">Location</th>
+                <th className="px-4 py-2 border border-gray-600">Action</th>
+              </tr>
+            </thead>
+            <tbody className="text-center text-md">
+              {companyJob.map((companyJob, index) => (
+                <tr key={companyJob.id}>
                   <td className="px-4 py-2 border border-gray-600">{index + 1}</td>
-                  <td className="px-4 py-2 border border-gray-600">{job.job_title}</td>
-                  <td className="px-4 py-2 border border-gray-600">{job.company_name}</td>
-                  <td className="px-4 py-2 border border-gray-600">{job.job_type}</td>
+                  <td className="px-4 py-2 border border-gray-600">{companyJob.job_title}</td>
+                  <td className="px-4 py-2 border border-gray-600">{companyJob.company_name}</td>
+                  <td className="px-4 py-2 border border-gray-600">{companyJob.job_type}</td>
                   <td className="px-4 py-2 border border-gray-600">
-                    {new Date(job.job_post_date).toLocaleDateString()}
+                    {new Date(companyJob.job_post_date).toLocaleDateString()}
                   </td>
-                  <td className="px-4 py-2 border border-gray-600">{job.location}</td>
+                  <td className="px-4 py-2 border border-gray-600">{companyJob.location}</td>
                   <td className="px-4 py-2 border border-gray-600">
                     <button
-                      onClick={() => handleEdit(job.id)}
+                      onClick={() => handleEdit(companyJob.id)}
                       className="mr-4 text-purple-600 hover:scale-110"
                     >
-                    <SquarePen/>
+                      <SquarePen />
                     </button>
                     <button
-                      onClick={() => handleDelete(job.id)}
+                      onClick={() => handleDelete(companyJob.id)}
                       className="text-red-500 hover:text-red-400"
                     >
-                       <Trash2/>
+                      <Trash2 />
                     </button>
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={7} className="px-4 py-2 text-center border border-gray-600">
-                  No jobs available.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+      )}
+    </>
   );
 };
 

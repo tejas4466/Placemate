@@ -35,6 +35,7 @@ const CompanyLogin: React.FC = () => {
       // Save the auth token and role to localStorage
       localStorage.setItem('authToken', response.data.AuthToken);
       localStorage.setItem('role', response.data.role);
+      localStorage.setItem('userData',JSON.stringify(response.data.userData)); 
       
       // Close the dialog after successful login
       setIsDialogOpen(false);

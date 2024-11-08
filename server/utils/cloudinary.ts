@@ -1,7 +1,7 @@
+// Configuration
 import cloudinary from 'cloudinary';
 import fs from 'fs';
 
-// Configuration
 cloudinary.v2.config({ 
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -20,12 +20,13 @@ export const uploadOnCloudinary = async (localFilePath: string | null): Promise<
     }
 
     try {
-        // Upload the file to Cloudinary
+        // Upload the file to Cloudinary with flags to display inline
         const response = await cloudinary.v2.uploader.upload(localFilePath, {
-            resource_type: "auto"
+            resource_type: "raw",
         });
-
-        console.log("File successfully uploaded to Cloudinary:", response.url);
+        // Modify the URL for inline display
+const modifiedUrl = response.url.replace("/upload/", "/upload/fl_attachment/");
+        console.log("File successfully uploaded to Cloudinary:", modifiedUrl);
         fs.unlinkSync(localFilePath);
         return response; // Return the response containing the uploaded file info
     } catch (error) {

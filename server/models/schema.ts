@@ -59,6 +59,7 @@ export const users = mysqlTable("users", {
 export const jobapplications = mysqlTable('jobapplications', {
   id: int('id').primaryKey().autoincrement(), 
   image: varchar('image', { length: 255 }).notNull(), 
+  resume: varchar('resume', { length: 255 }),
   name: varchar('name', { length: 100 }).notNull(),
   contact_no: varchar('contact_no', { length: 15 }).notNull(), 
   location: varchar('location', { length: 50 }).notNull(),

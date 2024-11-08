@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect,useState } from 'react';
 import axiosInstance from '../utils/axios';
-import { Trash2 } from 'lucide-react';
-import { SquarePen } from 'lucide-react';
+import { Trash2, SquarePen } from 'lucide-react';
 
 // Define a TypeScript type for the application data according to the schema
 type Application = {
@@ -15,15 +14,18 @@ type Application = {
   email: string;
 };
 
-const JobApplicationsReport: React.FC = () => {
+const ApplicantAppliedJobs: React.FC = () => {
+  const userData = localStorage.getItem('userData');
+  const user = userData ? JSON.parse(userData) : {};
   const [applications, setApplications] = useState<Application[]>([]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
+  const jobsApplied = applications.filter((application) => application.email === user.email);
+
   useEffect(() => {
-    // Fetch the list of job applications from the API
     axiosInstance.get('/api/applications')
       .then(response => {
-        setApplications(response.data); // Set the applications data in state
+        setApplications(response.data);
       })
       .catch(error => {
         console.error("There was an error fetching the job applications!", error);
@@ -32,7 +34,6 @@ const JobApplicationsReport: React.FC = () => {
 
   const handleEdit = (id: number) => {
     console.log(`Edit application with ID: ${id}`);
-    // Implement edit functionality here
   };
 
   const handleDelete = (id: number) => {
@@ -48,15 +49,16 @@ const JobApplicationsReport: React.FC = () => {
     }
   };
 
+  
   return (
     <div className="min-h-screen px-10 py-6 text-white bg-black">
-      <h1 className="mb-6 text-3xl font-bold text-center">Applicants Report</h1>
+      <h1 className="mb-6 text-3xl font-bold text-center">My Applied Jobs</h1>
       <div className="overflow-x-auto">
         <table className="min-w-full bg-black border border-gray-600">
           <thead>
             <tr>
               <th className="px-4 py-2 border border-gray-600">ID</th>
-              <th className="px-4 py-2 border border-gray-600">Image</th>
+              <th className="px-4 py-2 border border-gray-600">Profile Image</th>
               <th className="px-4 py-2 border border-gray-600">Name</th>
               <th className="px-4 py-2 border border-gray-600">Number</th>
               <th className="px-4 py-2 border border-gray-600">City</th>
@@ -66,14 +68,18 @@ const JobApplicationsReport: React.FC = () => {
               <th className="px-4 py-2 border border-gray-600">Action</th>
             </tr>
           </thead>
-          <tbody className='text-center text-md'>
-            {applications.length > 0 ? (
-              applications.map((application, index) => (
-                <tr key={application.id} className='h-20'>
+          <tbody className="text-center text-md">
+            {jobsApplied.length > 0 ? (
+              jobsApplied.map((application, index) => (
+                <tr key={application.id} className="h-20">
                   <td className="px-4 py-2 border border-gray-600">{index + 1}</td>
                   <td className="flex items-start justify-center h-full px-4 py-2 border border-gray-600">
-                    <img src={application.image} alt="Applicant" className="h-16 rounded cursor-pointer w-18"
-                                         onClick={() => setSelectedImage(application.image)} />
+                    <img
+                      src={application.image}
+                      alt="Applicant"
+                      className="h-16 rounded cursor-pointer w-18"
+                      onClick={() => setSelectedImage(application.image)}
+                    />
                   </td>
                   <td className="px-4 py-2 border border-gray-600">{application.name}</td>
                   <td className="px-4 py-2 border border-gray-600">{application.contact_no}</td>
@@ -100,27 +106,27 @@ const JobApplicationsReport: React.FC = () => {
             ) : (
               <tr>
                 <td colSpan={9} className="px-4 py-2 text-center border border-gray-600">
-                  No applications available.
+                  Not applied for any Job yet!
                 </td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
-        {/* Modal for showing the larger image */}
-      {selectedImage && (
-  <div
-    className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
-    onClick={() => setSelectedImage(null)} // Close modal when background is clicked
-  >
-    <div className="relative" onClick={(e) => e.stopPropagation()}> {/* Prevent click event on image from closing modal */}
-      <img src={selectedImage} alt="Applicant Large View" className="h-auto rounded w-96" />
-    </div>
-  </div>
-)}
 
+      {/* Modal for showing the larger image */}
+      {selectedImage && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
+          onClick={() => setSelectedImage(null)} // Close modal when background is clicked
+        >
+          <div className="relative" onClick={(e) => e.stopPropagation()}> {/* Prevent click event on image from closing modal */}
+            <img src={selectedImage} alt="Applicant Large View" className="h-auto rounded w-96" />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default JobApplicationsReport;
+export default ApplicantAppliedJobs;

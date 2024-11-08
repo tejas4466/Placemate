@@ -16,6 +16,7 @@ import CompanyReport from './pages/CompanyReport';
 import JobReport from './pages/JobReport';
 import JobApplicationsReport from './pages/JobApplicationsReport';
 import JobDetails from './pages/JobDetails';
+import ApplicantAppliedJobs from './pages/ApplicantAppliedJobs';
 
 const App: React.FC = () => {
   return (
@@ -35,7 +36,7 @@ const App: React.FC = () => {
           <Route path="/job-application-report" element={<PrivateRoute><JobApplicationsReport/></PrivateRoute>} />
           <Route path="/job-report" element={<PrivateRoute><JobReport/></PrivateRoute>} />
           <Route path="/account" element={<PrivateRoute><Account/></PrivateRoute>}/>   
-          {/* <Route path="/applied-job" element={<PrivateRoute><AppliedJob/></PrivateRoute>} /> */}
+          <Route path="/applied-jobs" element={<PrivateRoute><ApplicantAppliedJobs/></PrivateRoute>} />
           {/* <Route path="/feedback-report" element={<PrivateRoute><FeedbackReport/></PrivateRoute>} /> */}
           <Route path="/jobdetails/:id" element={<JobDetails/>} />
         </Route>

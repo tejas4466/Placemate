@@ -47,6 +47,7 @@ const ApplicantRegistration: React.FC = () => {
           'Content-Type': 'multipart/form-data'
         }
       });
+      console.log(response);
 
       if (response) {
         toast.success("You have successfully registered!");
