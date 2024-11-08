@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/axios';
 import { Trash2 } from 'lucide-react';
 import { SquarePen } from 'lucide-react';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css'; // Import NProgress styles
+import '../nprogress-custom.css'; // Add this line after the default NProgress styles
 
 // Define a TypeScript type for the application data according to the schema
 type Application = {
@@ -20,6 +23,7 @@ const JobApplicationsReport: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
+    NProgress.start();
     // Fetch the list of job applications from the API
     axiosInstance.get('/api/applications')
       .then(response => {
@@ -27,7 +31,13 @@ const JobApplicationsReport: React.FC = () => {
       })
       .catch(error => {
         console.error("There was an error fetching the job applications!", error);
-      });
+      })
+      .finally(
+        () => {
+          // Stop the NProgress bar
+          NProgress.done();
+        }
+      );
   }, []);
 
   const handleEdit = (id: number) => {

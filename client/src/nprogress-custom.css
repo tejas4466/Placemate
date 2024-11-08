@@ -1,0 +1,15 @@
+/* To customize the color of the loading bar */
+#nprogress .bar {
+  background: #a268ff !important; /* bg-purple-700 */
+}
+
+/* To customize the appearance of the peg (the little triangle at the end of the bar) */
+#nprogress .peg {
+  box-shadow: 0 0 10px #6d28d9, 0 0 5px #6d28d9 !important;
+}
+
+/* To hide the spinner */
+#nprogress .spinner,
+#nprogress .spinner-icon {
+  display: none !important;
+}

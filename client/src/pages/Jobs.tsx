@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/axios';
 import { Link } from 'react-router-dom';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css'; // Import NProgress styles
+import '../nprogress-custom.css'; // Add this line after the default NProgress styles
 
 // Define a TypeScript type for the job data according to the new schema
 type Job = {
@@ -16,6 +19,7 @@ const Jobs: React.FC = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
 
   useEffect(() => {
+    NProgress.start();
     // Fetch the list of jobs from the API
     axiosInstance.get('/api/jobs') // Adjust this endpoint as needed
       .then(response => {
@@ -23,7 +27,13 @@ const Jobs: React.FC = () => {
       })
       .catch(error => {
         console.error("There was an error fetching the jobs!", error);
-      });
+      })
+      .finally(
+        () => {
+          // Stop the NProgress bar
+          NProgress.done();
+        }
+      );
   }, []);
 
   return (

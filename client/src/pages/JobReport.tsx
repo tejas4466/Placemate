@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axiosInstance from '../utils/axios';
 import { Trash2, SquarePen } from 'lucide-react';
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css'; // Import NProgress styles
+import '../nprogress-custom.css'; // Add this line after the default NProgress styles
 
 // Define a TypeScript type for the job data according to the schema
 type Job = {
@@ -19,6 +22,7 @@ const JobReport: React.FC = () => {
   const companyJob = jobs.filter((job) => job.company_name === user.name);
 
   useEffect(() => {
+    NProgress.start();
     // Fetch the list of jobs from the API
     axiosInstance.get('/api/jobs')
       .then(response => {
@@ -26,7 +30,13 @@ const JobReport: React.FC = () => {
       })
       .catch(error => {
         console.error("There was an error fetching the jobs!", error);
-      });
+      })
+      .finally(
+        () => {
+          // Stop the NProgress bar
+          NProgress.done();
+        }
+      );
   }, []);
 
   const handleEdit = (id: number) => {
