@@ -18,7 +18,7 @@ type Job = {
 const Jobs: React.FC = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
 
-  useEffect(() => {
+  useEffect(() => { 
     NProgress.start();
     // Fetch the list of jobs from the API
     axiosInstance.get('/api/jobs') // Adjust this endpoint as needed

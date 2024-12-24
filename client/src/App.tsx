@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './Layout';
 import Home from './pages/Home';
 import About from './pages/About';
-import NotFound from './pages/NotFound'; 
+import NotFound from './pages/NotFound';
 import Feedback from './pages/Feedback';
 import ApplicantRegistration from './pages/ApplicantRegistration';
 import CompanyRegistration from './pages/CompanyRegistration';
@@ -23,26 +23,30 @@ const App: React.FC = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Layout />}>
+          {/* Index route for Home */}
           <Route index element={<Home />} />
+
+          {/* Other Routes */}
           <Route path="/about" element={<About />} />
+          <Route path="/feedback" element={<Feedback />} />
+          <Route path="/register/applicant" element={<ApplicantRegistration />} />
+          <Route path="/register/company" element={<CompanyRegistration />} />
+          <Route path="/companies" element={<Companies />} />
+          <Route path="/jobs" element={<Jobs />} />
+          <Route path="/register/job" element={<PrivateRoute><JobRegistration /></PrivateRoute>} />
+          <Route path="/company-report" element={<PrivateRoute><CompanyReport /></PrivateRoute>} />
+          <Route path="/job-application-report" element={<PrivateRoute><JobApplicationsReport /></PrivateRoute>} />
+          <Route path="/job-report" element={<PrivateRoute><JobReport /></PrivateRoute>} />
+          <Route path="/account" element={<PrivateRoute><Account /></PrivateRoute>} />
+          <Route path="/applied-jobs" element={<PrivateRoute><ApplicantAppliedJobs /></PrivateRoute>} />
+          <Route path="/jobdetails/:id" element={<JobDetails />} />
+
+          {/* Catch-all route for undefined paths */}
           <Route path="*" element={<NotFound />} />
-          <Route path="/feedback" element={<Feedback/>} />
-          <Route path="/register/applicant" element={<ApplicantRegistration/>} />
-          <Route path="/register/company" element={<CompanyRegistration/>} />
-          <Route path="/companies" element={<Companies/>} />
-          <Route path="/jobs" element={<Jobs/>} />
-          <Route path="/register/job" element={<PrivateRoute><JobRegistration/></PrivateRoute>} />
-          <Route path="/company-report" element={<PrivateRoute><CompanyReport/></PrivateRoute>} />
-          <Route path="/job-application-report" element={<PrivateRoute><JobApplicationsReport/></PrivateRoute>} />
-          <Route path="/job-report" element={<PrivateRoute><JobReport/></PrivateRoute>} />
-          <Route path="/account" element={<PrivateRoute><Account/></PrivateRoute>}/>   
-          <Route path="/applied-jobs" element={<PrivateRoute><ApplicantAppliedJobs/></PrivateRoute>} />
-          {/* <Route path="/feedback-report" element={<PrivateRoute><FeedbackReport/></PrivateRoute>} /> */}
-          <Route path="/jobdetails/:id" element={<JobDetails/>} />
         </Route>
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;

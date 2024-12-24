@@ -16,7 +16,7 @@ function LoginDropdown() {
       <DropdownMenuContent className="bg-black border border-gray-600 rounded-md">
             <DropdownMenuItem asChild>
               <Dialog>
-                <DialogTrigger className='text-gray-400 hover:text-black hover:bg-gray-300 cursor-pointer w-full rounded'>
+                <DialogTrigger className='w-full text-gray-400 rounded cursor-pointer hover:text-black hover:bg-gray-300'>
                   <button className='w-full p-1 text-md'>Applicant</button>
                 </DialogTrigger>
                 <ApplicantLogin/>
@@ -24,16 +24,16 @@ function LoginDropdown() {
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Dialog>
-                <DialogTrigger className='text-gray-400 hover:text-black hover:bg-gray-300 cursor-pointer w-full rounded'>
-                  <button className='w-full  p-1 text-md'>Company</button>
+                <DialogTrigger className='w-full text-gray-400 rounded cursor-pointer hover:text-black hover:bg-gray-300'>
+                  <button className='w-full p-1 text-md'>Company</button>
                 </DialogTrigger>
                 <CompanyLogin/>
               </Dialog>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Dialog>
-                <DialogTrigger className='text-gray-400 hover:text-black hover:bg-gray-300 cursor-pointer w-full rounded'>
-                  <button className='w-full  p-1 text-md'>Admin</button>
+                <DialogTrigger className='w-full text-gray-400 rounded cursor-pointer hover:text-black hover:bg-gray-300'>
+                  <button className='w-full p-1 text-md'>Admin</button>
                 </DialogTrigger>
                 <AdminLogin/>
               </Dialog>

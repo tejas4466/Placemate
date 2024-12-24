@@ -47,8 +47,6 @@ const ApplicantRegistration: React.FC = () => {
           'Content-Type': 'multipart/form-data'
         }
       });
-      console.log(response);
-
       if (response) {
         toast.success("You have successfully registered!");
         reset();
@@ -110,7 +108,7 @@ const ApplicantRegistration: React.FC = () => {
           <input
             id="resume"
             type="file"
-            accept="application/pdf, .doc, .docx"
+            accept="image/*"
             className="block w-full p-2 text-white bg-black border border-gray-600 rounded"
             {...register('resume')}
           />

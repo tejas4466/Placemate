@@ -6,6 +6,7 @@ import { Trash2, SquarePen } from 'lucide-react';
 type Application = {
   id: number;
   image: string;
+  resume:string;
   name: string;
   contact_no: string;
   location: string;
@@ -19,9 +20,10 @@ const ApplicantAppliedJobs: React.FC = () => {
   const user = userData ? JSON.parse(userData) : {};
   const [applications, setApplications] = useState<Application[]>([]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedResume, setSelectedResume] = useState<string | null>(null);
 
   const jobsApplied = applications.filter((application) => application.email === user.email);
-
+console.log(jobsApplied);
   useEffect(() => {
     axiosInstance.get('/api/applications')
       .then(response => {
@@ -59,6 +61,7 @@ const ApplicantAppliedJobs: React.FC = () => {
             <tr>
               <th className="px-4 py-2 border border-gray-600">ID</th>
               <th className="px-4 py-2 border border-gray-600">Profile Image</th>
+              <th className="px-4 py-2 border border-gray-600">Resume</th>
               <th className="px-4 py-2 border border-gray-600">Name</th>
               <th className="px-4 py-2 border border-gray-600">Number</th>
               <th className="px-4 py-2 border border-gray-600">City</th>
@@ -73,12 +76,20 @@ const ApplicantAppliedJobs: React.FC = () => {
               jobsApplied.map((application, index) => (
                 <tr key={application.id} className="h-20">
                   <td className="px-4 py-2 border border-gray-600">{index + 1}</td>
-                  <td className="flex items-start justify-center h-full px-4 py-2 border border-gray-600">
+                  <td className="flex items-start justify-center h-full px-2 py-2 border border-gray-600">
                     <img
                       src={application.image}
                       alt="Applicant"
-                      className="h-16 rounded cursor-pointer w-18"
+                      className="h-16 rounded cursor-pointer w-14"
                       onClick={() => setSelectedImage(application.image)}
+                    />
+                  </td>
+                  <td className="">
+                  <img
+                      src={application.resume}
+                      alt="Applicant"
+                      className="w-16 h-16 rounded cursor-pointer"
+                      onClick={() => setSelectedResume(application.resume)}
                     />
                   </td>
                   <td className="px-4 py-2 border border-gray-600">{application.name}</td>
@@ -122,6 +133,18 @@ const ApplicantAppliedJobs: React.FC = () => {
         >
           <div className="relative" onClick={(e) => e.stopPropagation()}> {/* Prevent click event on image from closing modal */}
             <img src={selectedImage} alt="Applicant Large View" className="h-auto rounded w-96" />
+          </div>
+        </div>
+      )}
+      
+      {/* Modal for showing the larger resume */}
+      {selectedResume && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80"
+          onClick={() => setSelectedImage(null)} // Close modal when background is clicked
+        >
+          <div className="relative" onClick={(e) => e.stopPropagation()}> {/* Prevent click event on image from closing modal */}
+            <img src={selectedResume} alt="Resume Large View" className="h-auto rounded w-96" />
           </div>
         </div>
       )}

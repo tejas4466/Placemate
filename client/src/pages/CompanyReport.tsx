@@ -4,6 +4,7 @@ import {Trash2} from 'lucide-react';
 import {SquarePen} from 'lucide-react';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css'; // Import NProgress styles
+
 import '../nprogress-custom.css'; // Add this line after the default NProgress styles
 
 // Define a TypeScript type for the company data

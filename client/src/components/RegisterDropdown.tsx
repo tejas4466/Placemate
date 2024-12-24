@@ -8,15 +8,15 @@ function RegisterDropdown() {
   return (
         <DropdownMenuContent className="bg-black border border-gray-600 rounded-md">
             <DropdownMenuItem asChild>
-              <Link to="/register/applicant" className="text-gray-400 hover:text-white cursor-pointer">
+              <Link to="/register/applicant" className="text-gray-400 cursor-pointer hover:text-white">
                 Applicant
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link to="/register/company" className="text-gray-400 hover:text-white cursor-pointer">
+            {/* <DropdownMenuItem asChild>
+              <Link to="/register/company" className="text-gray-400 cursor-pointer hover:text-white">
                 Company
               </Link>
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
           </DropdownMenuContent>
   )
 }

@@ -42,7 +42,7 @@ const ApplicantLogin: React.FC = () => {
         toast.success('Login successful!');
         
         // Redirect after successful login and reload the page
-        window.location.reload(); // Reload the page to reflect changes
+        // window.location.reload(); // Reload the page to reflect changes 
         navigate('/'); // Replace with your desired page
       }
     } catch (error) {
